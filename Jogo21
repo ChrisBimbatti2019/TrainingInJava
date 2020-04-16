@@ -1,0 +1,204 @@
+package vinteum;
+
+import java.util.Scanner;
+
+public class VinteUm {
+
+public static void carregar(int[] baralho)
+{   
+    int num, naipe;
+    for(naipe = 0; naipe <= 3; naipe++)
+    {
+        for(num = 1; num <= 13; num++)
+        {  
+            baralho [(naipe * 13)+ num - 1] = num;
+        }
+    }
+}
+public static void imprimir(int[] baralho)
+{   
+    for(int i = 0; i <= 52; i++)
+    {   
+        System.out.println(baralho[i]);
+    }
+}
+public static void embaralhar(int[] baralho)
+{  
+    for(int i = 0; i < 52; i++)
+    {   
+        int carta = baralho[i];
+        int novaPosicao = (int)(Math.random()*52);
+        baralho[i] = baralho[novaPosicao];
+        baralho[novaPosicao] = carta;
+    }
+}
+public static void usuarioxcpu(int[] baralho)
+{   
+    int pontoJogador = 0;
+    int cartaAtual;
+    boolean logic =true;
+    int perdeu = 0;
+    int proximaCarta = 0;
+    Scanner teclado = new Scanner(System.in);
+   
+    do
+    {   
+        cartaAtual = baralho[proximaCarta++];
+        System.out.println("Voce recebeu a carta: "+ cartaAtual);
+        pontoJogador += cartaAtual;
+        System.out.println("Seu ponto atual e: "+ pontoJogador);
+        System.out.println("Digite 1 para sacar mais uma carta, ou 0 para sair. ");
+        logic = teclado.nextInt() == 1;
+        
+        if(pontoJogador == 21)
+        {
+            System.out.println("\nParabéns, você venceu :) ! ");
+            break;
+        }
+        else if(pontoJogador > 21)
+        {
+            System.out.println("Desculpa, Não foi dessa vez :( ");
+            perdeu = 1;
+            break;
+        }
+       
+    }while(logic);
+    
+    int pontoCpu = 0;
+      
+    System.out.println("\n\n");
+    System.out.println("AGORA É A VEZ DA CPU:\n\n");
+    do
+    {
+        cartaAtual = baralho[proximaCarta++];
+        System.out.println("A CPU recebeu a carta: "+ cartaAtual);
+        pontoCpu += cartaAtual;
+        System.out.println("Pontos da CPU é:" + pontoCpu);
+
+        if(pontoCpu == 21)
+        {
+            System.out.println("A CPU venceu, com  "+ pontoCpu+"pontos! ");
+            break;
+        }
+        else if(pontoCpu > pontoJogador && pontoCpu < 21)
+        {
+            System.out.println("A CPU venceu com a pontuação: "+ pontoCpu);
+        }
+        else if(pontoCpu > 21)
+        {
+             System.out.println("A CPU perdeu! ");
+            break;
+        }
+            
+    }while(true);
+}
+public static void multiplayer(int[] baralho)
+{
+    int pontoJogador1 = 0;
+    int pontoJogador2 = 0;
+    int cartaAtual1;
+    int cartaAtual2;
+    boolean logic1 = true;
+    boolean logic2 = true;
+    int perdeu1 = 0;
+    int perdeu2 = 0;
+    int proximaCarta1 = 0;
+    int proximaCarta2 = 0;
+    Scanner teclado = new Scanner(System.in);
+   
+    //PRIMEIRO JOGADOR
+    System.out.println("PLAYER ONE:\n\n");
+    do
+    {   
+        cartaAtual1 = baralho[proximaCarta1++];
+        System.out.println("Voce recebeu a carta: "+ cartaAtual1);
+        pontoJogador1 += cartaAtual1;
+        System.out.println("Seu ponto atual e: "+ pontoJogador1);
+        
+       System.out.println("Digite 1 para sacar mais uma carta, ou 0 para sair. ");
+        logic1 = teclado.nextInt() == 1;
+        
+        if(pontoJogador1 == 21)
+        {
+            System.out.println("\nParabéns, você venceu :) ! ");
+            break;
+        }
+        else if(pontoJogador1 > 21)
+        {
+            System.out.println("Desculpa, Não foi dessa vez :( ");
+            perdeu1 = 1;
+            break;
+        }
+       
+    }while(logic1);
+    
+    //SEGUNDO JOGADOR
+    System.out.println("PLAYER TWO:\n\n");
+    do
+    {   
+        embaralhar(baralho);
+        
+        cartaAtual2 = baralho[proximaCarta2++];
+        System.out.println("Voce recebeu a carta: "+ cartaAtual2);
+        pontoJogador2 += cartaAtual2;
+        System.out.println("Seu ponto atual e: "+ pontoJogador2);
+        
+       System.out.println("Digite 1 para sacar mais uma carta, ou 0 para sair. ");
+        logic2 = teclado.nextInt() == 1;
+        
+        if(pontoJogador2 == 21)
+        {
+            System.out.println("\nParabéns, você venceu :) ! ");
+            break;
+        }
+        else if(pontoJogador2 > 21)
+        {
+            System.out.println("Desculpa, Não foi dessa vez :( ");
+            perdeu2 = 1;
+            break;
+        }
+       
+    }while(logic2);
+}
+
+    public static void main(String[] args)  {
+       
+        Scanner teclado = new Scanner(System.in);
+        System.out.println("JOGO DE CARTAZ: VINTE UM\n");
+        System.out.println("Uma dica: Antes de inciar o jogo,\nfassa o carregamento das cartas e,\nembaralhe elas em seguida.\n\n");
+        
+        int[] baralho = new int[52];
+        int op;
+        
+        do
+        {
+            System.out.println("1 - Carregar o baralho.");
+            System.out.println("2 - Embaralhar o baralho.");
+            System.out.println("3 - 1 VS CPU.");
+            System.out.println("4 - MULTIPLAYER");
+            System.out.println("5 - SAIR. \n");
+            System.out.println(": ");
+            op = teclado.nextInt();
+            
+            switch(op)
+            {
+                case 1: carregar(baralho);
+                break;
+                
+                case 2: embaralhar(baralho);
+                break;
+                
+                case 3: usuarioxcpu(baralho);
+                break;
+                
+                case 4: multiplayer(baralho);
+                break;
+                
+                case 5: break;
+                
+                default: break;
+            }
+            
+        }while(op!=5);        
+    }  
+}
